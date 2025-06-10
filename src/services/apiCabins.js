@@ -8,3 +8,5 @@ export const getCabins = async () => {
   }
   return data;
 };
+
+export const 
