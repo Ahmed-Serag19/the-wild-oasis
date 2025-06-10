@@ -1,30 +1,47 @@
-import styled from "styled-components";
-import GlobalStyles from "./styles/GlobalStyles";
-const H1 = styled.h1`
-  font-size: 30px;
-  font-weight: 600;
-  background-color: yellow;
-`;
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const Button = styled.button`
-  font-size: 1.4rem;
-  font-weight: 500;
-  padding: 1.2rem 1.6rem;
-  border-radius: 1rem;
-  background-color: purple;
-  border: none;
-  color: white;
-`;
+import Account from "./pages/Account";
+import Cabins from "./pages/Cabins";
+import Dashboard from "./pages/Dashboard";
+import Settings from "./pages/Settings";
+import Users from "./pages/Users";
+import Bookings from "./pages/Bookings";
+import Login from "./pages/Login";
+import PageNotFound from "./pages/PageNotFound";
+import GlobalStyles from "./styles/GlobalStyles";
+import AppLayout from "./ui/AppLayout";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 10 * 1000,
+    },
+  },
+});
+
 const App = () => {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
       <GlobalStyles />
-
-      <div>
-        <H1> The Wild Oasis</H1>
-        <Button>Click Me</Button>
-      </div>
-    </>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<AppLayout />}>
+            <Route index element={<Navigate replace to="dashboard" />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="account" element={<Account />} />
+            <Route path="bookings" element={<Bookings />} />
+            <Route path="cabins" element={<Cabins />} />
+            <Route path="users" element={<Users />} />
+            <Route path="settings" element={<Settings />} />
+          </Route>
+          <Route path="login" element={<Login />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 };
 
