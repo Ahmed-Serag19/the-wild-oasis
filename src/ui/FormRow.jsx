@@ -35,18 +35,27 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
-const FormRow = ({ inputLabel, inputType, inputName }) => {
+const FormRow = ({
+  inputLabel,
+  inputType,
+  inputName,
+  errors,
+  requiredMessage,
+}) => {
   return (
     <FormRowStyle>
-      <Label htmlFor="name">Cabin name</Label>
+      <Label htmlFor={inputName}>{inputLabel}</Label>
       <Input
-        type="text"
-        id="name"
-        {...register("name", {
-          required: "Cabin name is required",
-        })}
+        type={inputType}
+        id={inputName}
+        {...register(
+          { inputName },
+          {
+            required: requiredMessage,
+          }
+        )}
       />
-      {errors?.name && <Error>{errors.name.message}</Error>}
+      {errors?.inputName && <Error>{errors.inputName.message}</Error>}
     </FormRowStyle>
   );
 };
