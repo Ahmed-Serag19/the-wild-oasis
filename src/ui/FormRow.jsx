@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
-const FormRowStyle = styled.div`
+const StyledFormRow = styled.div`
   display: grid;
   align-items: center;
   grid-template-columns: 24rem 1fr 1.2fr;
@@ -26,6 +27,7 @@ const FormRowStyle = styled.div`
     gap: 1.2rem;
   }
 `;
+
 const Label = styled.label`
   font-weight: 500;
 `;
@@ -35,29 +37,19 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
-const FormRow = ({
-  inputLabel,
-  inputType,
-  inputName,
-  errors,
-  requiredMessage,
-}) => {
+function FormRow({ label, error, children }) {
   return (
-    <FormRowStyle>
-      <Label htmlFor={inputName}>{inputLabel}</Label>
-      <Input
-        type={inputType}
-        id={inputName}
-        {...register(
-          { inputName },
-          {
-            required: requiredMessage,
-          }
-        )}
-      />
-      {errors?.inputName && <Error>{errors.inputName.message}</Error>}
-    </FormRowStyle>
+    <StyledFormRow>
+      {label && <Label htmlFor={children.props.id}>{label}</Label>}
+      {children}
+      {error && <Error>{error}</Error>}
+    </StyledFormRow>
   );
-};
+}
 
+FormRow.propTypes = {
+  label: PropTypes.string,
+  error: PropTypes.string,
+  children: PropTypes.node.isRequired,
+};
 export default FormRow;
