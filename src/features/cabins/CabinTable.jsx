@@ -36,7 +36,6 @@ const CabinTable = () => {
     queryKey: ["cabins"],
     queryFn: getCabins,
   });
-  console.log(cabins);
   if (isLoading) {
     return <Spinner />;
   }
