@@ -1,11 +1,9 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { formatCurrency } from "../../utils/helpers";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteCabin } from "../../services/apiCabins";
-import toast from "react-hot-toast";
 import CreateCabinForm from "./CreateCabinForm";
-import { useState } from "react";
+import { useCabinForms } from "../../context/CabinFormsContext";
+import useDeleteCabin from "../../hooks/useDeleteCabin";
 
 const TableRow = styled.div`
   display: grid;
@@ -74,19 +72,18 @@ const CabinRow = ({ cabin }) => {
     discount,
     id: cabinId,
   } = cabin;
-  const [showForm, setShowForm] = useState(false);
-  const queryClient = useQueryClient();
-
-  const { isLoading: isDeleting, mutate } = useMutation({
-    mutationFn: (id) => deleteCabin(id),
-    onSuccess: () => {
-      toast.success("Cabin deleted successfully");
-      queryClient.invalidateQueries({
-        queryKey: ["cabins"],
-      });
-    },
-    onError: (err) => toast.error(err.message),
-  });
+  const { setCabinToEdit, cabinToEdit } = useCabinForms();
+  const { isDeleting, deleteCabinFn } = useDeleteCabin();
+  // const { isLoading: isDeleting, mutate } = useMutation({
+  //   mutationFn: (id) => deleteCabin(id),
+  //   onSuccess: () => {
+  //     toast.success("Cabin deleted successfully");
+  //     queryClient.invalidateQueries({
+  //       queryKey: ["cabins"],
+  //     });
+  //   },
+  //   onError: (err) => toast.error(err.message),
+  // });
 
   return (
     <>
@@ -98,17 +95,19 @@ const CabinRow = ({ cabin }) => {
         <Discount>{formatCurrency(discount)}</Discount>
         <ButtonsContainer>
           <Button
-            onClick={() => setShowForm((prev) => !prev)}
+            onClick={() =>
+              setCabinToEdit((prev) => (prev?.id === cabinId ? null : cabin))
+            }
             disabled={isDeleting}
           >
             Edit
           </Button>
-          <Button onClick={() => mutate(cabinId)} disabled={isDeleting}>
+          <Button onClick={() => deleteCabinFn(cabinId)} disabled={isDeleting}>
             Delete
           </Button>
         </ButtonsContainer>
       </TableRow>
-      {showForm && <CreateCabinForm cabinToEdit={cabin} />}
+      {cabinToEdit?.id === cabinId && <CreateCabinForm />}
     </>
   );
 };
