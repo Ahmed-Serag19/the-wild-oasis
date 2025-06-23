@@ -65,6 +65,17 @@ export async function createEditCabin(cabinData) {
 
   return data;
 }
+
+export async function duplicateCabin(originalCabin) {
+  const duplicatedCabin = {
+    ...originalCabin,
+    name: `Duplicate - ${originalCabin.name}`,
+    id: undefined,
+  };
+
+  return await createEditCabin(duplicatedCabin);
+}
+
 export async function deleteCabin(id) {
   const { data, error } = await supabase.from("cabins").delete().eq("id", id);
 

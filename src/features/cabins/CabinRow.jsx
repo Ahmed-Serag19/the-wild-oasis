@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import { formatCurrency } from "../../utils/helpers";
 import CreateCabinForm from "./CreateCabinForm";
 import { useCabinForms } from "../../context/CabinFormsContext";
-import useDeleteCabin from "../../hooks/useDeleteCabin";
+import useDeleteCabin from "./useDeleteCabin";
+import { useState } from "react";
+import ConfirmDeleteCabinModal from "./ConfirmDeleteCabinModal";
 
 const TableRow = styled.div`
   display: grid;
@@ -51,14 +53,31 @@ const Button = styled.button`
   padding: 0.8rem 1.6rem;
   font-size: 1.4rem;
   font-weight: 600;
-  color: #0d0d33;
-  background-color: var(--color-grey-300);
   border: none;
   transition: 0.3s all ease-in-out;
+  border-radius: 5px;
+  cursor: pointer;
+
+  color: ${({ variation }) =>
+    variation === "delete" || variation === "edit" ? "#ffffff" : "#0d0d33"};
+
+  background-color: ${({ variation }) =>
+    variation === "delete"
+      ? "var(--color-red-500)"
+      : variation === "edit"
+      ? "var(--color-blue-600)"
+      : "var(--color-grey-300)"};
+
   &:hover {
-    background-color: var(--color-grey-400);
+    background-color: ${({ variation }) =>
+      variation === "delete"
+        ? "var(--color-red-700)"
+        : variation === "edit"
+        ? "var(--color-blue-700)"
+        : "var(--color-grey-400)"};
     color: #ffffff;
   }
+
   &:focus {
     outline: 1px solid var(--color-grey-500);
   }
@@ -74,16 +93,7 @@ const CabinRow = ({ cabin }) => {
   } = cabin;
   const { setCabinToEdit, cabinToEdit } = useCabinForms();
   const { isDeleting, deleteCabinFn } = useDeleteCabin();
-  // const { isLoading: isDeleting, mutate } = useMutation({
-  //   mutationFn: (id) => deleteCabin(id),
-  //   onSuccess: () => {
-  //     toast.success("Cabin deleted successfully");
-  //     queryClient.invalidateQueries({
-  //       queryKey: ["cabins"],
-  //     });
-  //   },
-  //   onError: (err) => toast.error(err.message),
-  // });
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <>
@@ -92,22 +102,39 @@ const CabinRow = ({ cabin }) => {
         <Cabin>{name}</Cabin>
         <div>Fits up to {maxCapacity} guests</div>
         <Price>{formatCurrency(regularPrice)}</Price>
-        <Discount>{formatCurrency(discount)}</Discount>
+
+        {discount === (null || 0) ? (
+          <span>--</span>
+        ) : (
+          <Discount>{formatCurrency(discount)}</Discount>
+        )}
+
         <ButtonsContainer>
           <Button
             onClick={() =>
               setCabinToEdit((prev) => (prev?.id === cabinId ? null : cabin))
             }
             disabled={isDeleting}
+            variation="edit"
           >
             Edit
           </Button>
-          <Button onClick={() => deleteCabinFn(cabinId)} disabled={isDeleting}>
+          <Button
+            variation="delete"
+            onClick={() => setShowModal((prev) => !prev)}
+            disabled={isDeleting}
+          >
             Delete
           </Button>
         </ButtonsContainer>
       </TableRow>
       {cabinToEdit?.id === cabinId && <CreateCabinForm />}
+      {showModal && (
+        <ConfirmDeleteCabinModal
+          confirmDelete={() => deleteCabinFn(cabinId)}
+          onClose={() => setShowModal((prev) => !prev)}
+        />
+      )}
     </>
   );
 };
