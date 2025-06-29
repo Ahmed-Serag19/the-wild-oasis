@@ -2,10 +2,16 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { formatCurrency } from "../../utils/helpers";
 import CreateCabinForm from "./CreateCabinForm";
-import { useCabinForms } from "../../context/CabinFormsContext";
+import { useCabinForms } from "../../context/useCabinForms";
 import useDeleteCabin from "./useDeleteCabin";
 import { useState } from "react";
 import ConfirmDeleteCabinModal from "./ConfirmDeleteCabinModal";
+import {
+  BsFillPencilFill,
+  BsFillTrashFill,
+  BsFillLayersFill,
+} from "react-icons/bs";
+import useCreateCabin from "./useCreateCabin";
 
 const TableRow = styled.div`
   display: grid;
@@ -49,23 +55,56 @@ const ButtonsContainer = styled.div`
   display: flex;
   gap: 1rem;
 `;
+
+const TooltipWrapper = styled.div`
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #1d1d34;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 1.4rem;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
+`;
+
 const Button = styled.button`
-  padding: 0.8rem 1.6rem;
+  padding: 0.8rem 0.8rem;
   font-size: 1.4rem;
   font-weight: 600;
+  font-size: 18px;
   border: none;
   transition: 0.3s all ease-in-out;
   border-radius: 5px;
   cursor: pointer;
+  &:disabled {
+    cursor: not-allowed;
+  }
 
-  color: ${({ variation }) =>
-    variation === "delete" || variation === "edit" ? "#ffffff" : "#0d0d33"};
+  color: ${({ variation }) => (variation !== "" ? "#ffffff" : "#0d0d33")};
 
   background-color: ${({ variation }) =>
     variation === "delete"
       ? "var(--color-red-500)"
       : variation === "edit"
       ? "var(--color-blue-600)"
+      : variation === "duplicate"
+      ? "green"
       : "var(--color-grey-300)"};
 
   &:hover {
@@ -74,6 +113,8 @@ const Button = styled.button`
         ? "var(--color-red-700)"
         : variation === "edit"
         ? "var(--color-blue-700)"
+        : variation === "duplicate"
+        ? "green"
         : "var(--color-grey-400)"};
     color: #ffffff;
   }
@@ -94,7 +135,17 @@ const CabinRow = ({ cabin }) => {
   const { setCabinToEdit, cabinToEdit } = useCabinForms();
   const { isDeleting, deleteCabinFn } = useDeleteCabin();
   const [showModal, setShowModal] = useState(false);
+  const { createCabin, isCreating } = useCreateCabin();
 
+  const duplicateCabin = () => {
+    createCabin({
+      name: `Duplicate ${name}`,
+      image,
+      maxCapacity,
+      regularPrice,
+      discount,
+    });
+  };
   return (
     <>
       <TableRow role="row">
@@ -110,22 +161,35 @@ const CabinRow = ({ cabin }) => {
         )}
 
         <ButtonsContainer>
-          <Button
-            onClick={() =>
-              setCabinToEdit((prev) => (prev?.id === cabinId ? null : cabin))
-            }
-            disabled={isDeleting}
-            variation="edit"
-          >
-            Edit
-          </Button>
-          <Button
-            variation="delete"
-            onClick={() => setShowModal((prev) => !prev)}
-            disabled={isDeleting}
-          >
-            Delete
-          </Button>
+          <TooltipWrapper data-tooltip="Duplicate cabin">
+            <Button
+              onClick={duplicateCabin}
+              disabled={isDeleting || isCreating}
+              variation="duplicate"
+            >
+              <BsFillLayersFill />
+            </Button>
+          </TooltipWrapper>
+          <TooltipWrapper data-tooltip="Edit cabin">
+            <Button
+              onClick={() =>
+                setCabinToEdit((prev) => (prev?.id === cabinId ? null : cabin))
+              }
+              disabled={isDeleting || isCreating}
+              variation="edit"
+            >
+              <BsFillPencilFill />
+            </Button>
+          </TooltipWrapper>
+          <TooltipWrapper data-tooltip="Delete cabin">
+            <Button
+              variation="delete"
+              onClick={() => setShowModal((prev) => !prev)}
+              disabled={isDeleting || isCreating}
+            >
+              <BsFillTrashFill />
+            </Button>
+          </TooltipWrapper>
         </ButtonsContainer>
       </TableRow>
       {cabinToEdit?.id === cabinId && <CreateCabinForm />}

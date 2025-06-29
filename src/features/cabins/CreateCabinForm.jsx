@@ -6,7 +6,7 @@ import Textarea from "../../ui/Textarea";
 import { useForm } from "react-hook-form";
 import FormRow from "../../ui/FormRow";
 import PropTypes from "prop-types";
-import { useCabinForms } from "../../context/CabinFormsContext";
+import { useCabinForms } from "../../context/useCabinForms";
 import { useEffect } from "react";
 import useGetCabins from "./useGetCabins";
 import useEditCabin from "./useEditCabin";

@@ -43,7 +43,9 @@ const Button = styled.button`
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
-
+  &:disabled {
+    cursor: not-allowed;
+  }
   ${({ variation }) =>
     variation === "danger"
       ? `
