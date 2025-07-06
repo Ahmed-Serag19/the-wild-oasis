@@ -21,16 +21,17 @@ const queryClient = new QueryClient({
     },
   },
 });
+const basename = import.meta.env.BASE_URL;
 
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
       <GlobalStyles />
-      <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <BrowserRouter basename={basename}>
         <Routes>
           <Route element={<AppLayout />}>
-            <Route index element={<Navigate replace to="/dashboard" />} />
+            <Route index element={<Navigate replace to="dashboard" />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="account" element={<Account />} />
             <Route path="bookings" element={<Bookings />} />
