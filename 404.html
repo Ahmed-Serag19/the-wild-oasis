@@ -4,15 +4,13 @@
     <meta charset="utf-8" />
     <title>Redirecting...</title>
     <script>
-      // Matcher from rafgraph/spa-github-pages
-      (function (l) {
-        var path = l.pathname.split("/");
-        if (path.length > 1 && path[1]) {
-          window.location.replace(l.origin + l.pathname + l.search + l.hash);
-        } else {
-          window.location.replace(l.origin + "/" + l.search + l.hash);
-        }
-      })(window.location);
+      // SPA fallback script (RafGraph method)
+      window.location.replace(
+        "/the-wild-oasis" +
+          window.location.pathname.replace("/the-wild-oasis", "") +
+          window.location.search +
+          window.location.hash
+      );
     </script>
   </head>
   <body></body>
