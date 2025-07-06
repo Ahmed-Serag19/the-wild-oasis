@@ -12,7 +12,7 @@ const Img = styled.img`
 function Logo() {
   return (
     <StyledLogo>
-      <Img src="/logo-light.png" alt="Logo" />
+      <Img src={`${import.meta.env.BASE_URL}logo-light.png`} alt="Logo" />
     </StyledLogo>
   );
 }
