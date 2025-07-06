@@ -1,7 +1,6 @@
-import { createContext, useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
-
-export const CabinFormsContext = createContext(undefined);
+import { CabinFormsContext } from "./CabinFormsContext";
 
 export function CabinFormsProvider({ children }) {
   const [cabinToEdit, setCabinToEdit] = useState(null);

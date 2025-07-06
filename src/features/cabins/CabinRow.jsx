@@ -2,7 +2,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { formatCurrency } from "../../utils/helpers";
 import CreateCabinForm from "./CreateCabinForm";
-import { useCabinForms } from "../../context/useCabinForms";
+import { useCabinForms } from "../../context/cabin-form//useCabinForms";
 import useDeleteCabin from "./useDeleteCabin";
 import { useState } from "react";
 import ConfirmDeleteCabinModal from "./ConfirmDeleteCabinModal";

@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createEditCabin } from "../../services/apiCabins";
 import toast from "react-hot-toast";
-import { useCabinForms } from "../../context/useCabinForms";
+import { useCabinForms } from "../../context/cabin-form//useCabinForms";
 
 const useEditCabin = () => {
   const queryClient = useQueryClient();

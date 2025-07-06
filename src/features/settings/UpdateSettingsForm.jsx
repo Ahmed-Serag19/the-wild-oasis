@@ -1,70 +1,77 @@
-import Spinner from 'ui/Spinner';
-import { useSettings } from 'features/settings/useSettings';
-import { useUpdateSetting } from 'features/settings/useUpdateSetting';
-
-import Form from 'ui/Form';
-import FormRow from 'ui/FormRow';
-import Input from 'ui/Input';
+import Form from "../../ui/Form";
+import FormRow from "../../ui/FormRow";
+import Input from "../../ui/Input";
+import { useSettings } from "./useSettings";
+import SpinnerMini from "../../ui/SpinnerMini";
+import useEditSettings from "./useEditSetting";
 
 function UpdateSettingsForm() {
   const {
-    settings: {
-      minBookingLength,
-      maxBookingLength,
-      maxGuestsPerBooking,
-      breakfastPrice,
-    } = {},
     isLoading,
+    settings: {
+      breakfastPrice,
+      maxGuestsPerBooking,
+      maxBookingLength,
+      minBookingLength,
+    } = {},
   } = useSettings();
-  const { mutate: updateSetting, isLoading: isUpdating } = useUpdateSetting();
+  const { editSetting, isUpdating } = useEditSettings();
+  const handleEdit = (e, field) => {
+    const newValue = e.target.value;
+    if (!newValue) return;
+    const currentValue = {
+      breakfastPrice,
+      maxGuestsPerBooking,
+      maxBookingLength,
+      minBookingLength,
+    }[field];
+    const numericValue = Number(newValue);
+    const numericCurrentValue = Number(currentValue);
+    if (numericValue === numericCurrentValue) return;
+    editSetting({ [field]: numericValue });
+  };
+  if (isLoading) return <SpinnerMini />;
 
-  // return <Spinner />;
-  if (isLoading) return <Spinner />;
-
-  function handleBlur(e, field) {
-    const { value } = e.target;
-
-    if (!value) return;
-    updateSetting({ [field]: value });
-  }
-
-  // This time we are using UNCONTROLLED fields, so we will NOT store state
   return (
     <Form>
-      <FormRow label='Minimum nights/booking'>
+      <FormRow label="Minimum nights/booking">
         <Input
-          type='number'
+          disabled={isUpdating}
+          type="number"
+          id="min-nights"
           defaultValue={minBookingLength}
-          onBlur={(e) => handleBlur(e, 'minBookingLength')}
-          disabled={isUpdating}
-          id='min-nights'
+          // {...register("minBookingLength", { valueAsNumber: true })}
+          onBlur={(e) => handleEdit(e, "minBookingLength")}
         />
       </FormRow>
-      <FormRow label='Maximum nights/booking'>
+      <FormRow label="Maximum nights/booking">
         <Input
-          type='number'
+          disabled={isUpdating}
+          type="number"
+          id="max-nights"
           defaultValue={maxBookingLength}
-          onBlur={(e) => handleBlur(e, 'maxBookingLength')}
-          disabled={isUpdating}
-          id='max-nights'
+          // {...register("maxBookingLength", { valueAsNumber: true })}
+          onBlur={(e) => handleEdit(e, "maxBookingLength")}
         />
       </FormRow>
-      <FormRow label='Maximum guests/booking'>
+      <FormRow label="Maximum guests/booking">
         <Input
-          type='number'
+          disabled={isUpdating}
+          type="number"
+          id="max-guests"
           defaultValue={maxGuestsPerBooking}
-          onBlur={(e) => handleBlur(e, 'maxGuestsPerBooking')}
-          disabled={isUpdating}
-          id='max-guests'
+          // {...register("maxGuestsPerBooking", { valueAsNumber: true })}
+          onBlur={(e) => handleEdit(e, "maxGuestsPerBooking")}
         />
       </FormRow>
-      <FormRow label='Breakfast price'>
+      <FormRow label="Breakfast price">
         <Input
-          type='number'
-          defaultValue={breakfastPrice}
-          onBlur={(e) => handleBlur(e, 'breakfastPrice')}
           disabled={isUpdating}
-          id='breakfast-price'
+          type="number"
+          id="breakfast-price"
+          defaultValue={breakfastPrice}
+          // {...register("breakfastPrice", { valueAsNumber: true })}
+          onBlur={(e) => handleEdit(e, "breakfastPrice")}
         />
       </FormRow>
     </Form>

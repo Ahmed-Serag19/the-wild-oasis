@@ -3,7 +3,7 @@ import Row from "../ui/Row";
 import CabinTable from "../features/cabins/CabinTable";
 import Button from "../ui/Button";
 import CreateCabinForm from "../features/cabins/CreateCabinForm";
-import { useCabinForms } from "../context/useCabinForms";
+import { useCabinForms } from "../context/cabin-form//useCabinForms";
 function Cabins() {
   const { showAddCabin, setShowAddCabin } = useCabinForms();
   return (
