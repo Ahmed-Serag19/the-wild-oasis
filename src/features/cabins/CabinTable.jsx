@@ -3,6 +3,7 @@ import CabinRow from "./CabinRow";
 import useGetCabins from "./useGetCabins";
 import { useSearchParams } from "react-router-dom";
 import Table from "../../ui/Table";
+import Empty from "../../ui/Empty";
 
 const CabinTable = () => {
   const {
@@ -12,6 +13,7 @@ const CabinTable = () => {
   } = useGetCabins();
   const [searchParams] = useSearchParams();
 
+  if (!cabins?.length) return <Empty resource="cabins" />;
   if (isLoading) {
     return <Spinner />;
   }
@@ -54,4 +56,3 @@ const CabinTable = () => {
 };
 
 export default CabinTable;
-
