@@ -185,3 +185,4 @@ function BookingDataBox({ booking }) {
 }
 
 export default BookingDataBox;
+

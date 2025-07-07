@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import { formatCurrency } from "../../utils/helpers";
 import CreateCabinForm from "./CreateCabinForm";
 import { useCabinForms } from "../../context/cabin-form//useCabinForms";
@@ -201,17 +200,6 @@ const CabinRow = ({ cabin }) => {
       )}
     </>
   );
-};
-
-CabinRow.propTypes = {
-  cabin: PropTypes.shape({
-    id: PropTypes.number,
-    image: PropTypes.string,
-    name: PropTypes.string,
-    regularPrice: PropTypes.number,
-    discount: PropTypes.number,
-    maxCapacity: PropTypes.number,
-  }).isRequired,
 };
 
 export default CabinRow;

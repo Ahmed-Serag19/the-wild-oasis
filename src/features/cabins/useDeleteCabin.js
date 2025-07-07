@@ -19,3 +19,4 @@ const useDeleteCabin = () => {
 };
 
 export default useDeleteCabin;
+

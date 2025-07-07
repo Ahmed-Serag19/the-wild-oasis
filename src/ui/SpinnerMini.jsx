@@ -14,3 +14,4 @@ const SpinnerMini = styled(BiLoaderAlt)`
 `;
 
 export default SpinnerMini;
+

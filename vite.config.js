@@ -1,10 +1,22 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import eslint from "vite-plugin-eslint";
-const isProd = process.env.NODE_ENV === "production";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: isProd ? "/the-wild-oasis/" : "/",
-  plugins: [react(), eslint()],
+  base: "/the-wild-oasis/",
+  plugins: [
+    react(),
+    eslint({
+      cache: false,
+      include: ["src/**/*.js", "src/**/*.jsx"],
+      exclude: ["node_modules"],
+    }),
+  ],
+  server: {
+    fs: {
+      strict: false,
+    },
+    open: "/the-wild-oasis/",
+  },
 });

@@ -19,3 +19,4 @@ const useCreateCabin = () => {
 };
 
 export default useCreateCabin;
+

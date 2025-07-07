@@ -36,3 +36,4 @@ function GuestListItem({ guest, onClick }) {
 }
 
 export default GuestListItem;
+

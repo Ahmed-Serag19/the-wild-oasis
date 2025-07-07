@@ -190,3 +190,4 @@ FOR DARK MODE
 `;
 
 export default GlobalStyles;
+

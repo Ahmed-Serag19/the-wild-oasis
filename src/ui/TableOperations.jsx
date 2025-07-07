@@ -7,3 +7,4 @@ const TableOperations = styled.div`
 `;
 
 export default TableOperations;
+

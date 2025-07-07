@@ -20,3 +20,4 @@ const Spinner = styled.div`
 `;
 
 export default Spinner;
+

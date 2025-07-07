@@ -12,3 +12,4 @@ export const useSettings = () => {
   });
   return { isLoading, error, settings };
 };
+

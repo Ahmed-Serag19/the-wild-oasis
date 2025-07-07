@@ -10,12 +10,9 @@ const useGetCabins = () => {
     queryKey: ["cabins"],
     queryFn: getCabins,
   });
-  const sortedCabins = Array.isArray(cabins)
-    ? [...cabins].sort((a, b) =>
-        a.name.localeCompare(b.name, undefined, { numeric: true })
-      )
-    : [];
-  return { isLoading, sortedCabins, cabins };
+
+  return { isLoading, cabins };
 };
 
 export default useGetCabins;
+

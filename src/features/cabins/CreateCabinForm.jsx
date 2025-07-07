@@ -5,7 +5,6 @@ import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
 import { useForm } from "react-hook-form";
 import FormRow from "../../ui/FormRow";
-import PropTypes from "prop-types";
 import { useCabinForms } from "../../context/cabin-form//useCabinForms";
 import { useEffect } from "react";
 import useGetCabins from "./useGetCabins";
@@ -164,17 +163,5 @@ function CreateCabinForm() {
     </Form>
   );
 }
-
-CreateCabinForm.propTypes = {
-  cabinToEdit: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-    maxCapacity: PropTypes.number,
-    regularPrice: PropTypes.number,
-    discount: PropTypes.number,
-    description: PropTypes.string,
-    image: PropTypes.string,
-  }),
-};
 
 export default CreateCabinForm;

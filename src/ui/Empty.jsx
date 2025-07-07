@@ -3,3 +3,4 @@ function Empty({ resource }) {
 }
 
 export default Empty;
+

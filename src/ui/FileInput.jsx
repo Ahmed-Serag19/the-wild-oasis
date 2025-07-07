@@ -23,3 +23,4 @@ const FileInput = styled.input.attrs({ type: "file" })`
 `;
 
 export default FileInput;
+

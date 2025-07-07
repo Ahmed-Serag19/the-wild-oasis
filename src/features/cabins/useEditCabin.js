@@ -19,3 +19,4 @@ const useEditCabin = () => {
 };
 
 export default useEditCabin;
+

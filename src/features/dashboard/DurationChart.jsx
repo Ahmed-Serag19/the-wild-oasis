@@ -130,3 +130,4 @@ function prepareData(startData, stays) {
 
   return data;
 }
+

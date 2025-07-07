@@ -291,3 +291,4 @@ export const bookings = [
     numGuests: 7,
   },
 ];
+

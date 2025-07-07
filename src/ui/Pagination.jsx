@@ -55,3 +55,4 @@ const PaginationButton = styled.button`
     color: var(--color-brand-50);
   }
 `;
+

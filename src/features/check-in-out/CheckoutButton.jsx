@@ -9,3 +9,4 @@ function CheckoutButton({ bookingId }) {
 }
 
 export default CheckoutButton;
+

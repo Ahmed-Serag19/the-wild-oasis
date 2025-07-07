@@ -24,3 +24,4 @@ export async function updateSetting(newSetting) {
   }
   return data;
 }
+

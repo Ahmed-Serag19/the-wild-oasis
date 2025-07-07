@@ -19,3 +19,4 @@ const Avatar = styled.img`
   border-radius: 50%;
   outline: 2px solid var(--color-grey-100);
 `;
+

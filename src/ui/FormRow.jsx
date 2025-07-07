@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
 const StyledFormRow = styled.div`
   display: grid;
@@ -47,9 +46,5 @@ function FormRow({ label, error, children }) {
   );
 }
 
-FormRow.propTypes = {
-  label: PropTypes.string,
-  error: PropTypes.string,
-  children: PropTypes.node.isRequired,
-};
 export default FormRow;
+

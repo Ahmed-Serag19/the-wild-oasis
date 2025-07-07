@@ -1,5 +1,4 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
 import { CabinFormsContext } from "./CabinFormsContext";
 
 export function CabinFormsProvider({ children }) {
@@ -15,6 +14,4 @@ export function CabinFormsProvider({ children }) {
   );
 }
 
-CabinFormsProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+

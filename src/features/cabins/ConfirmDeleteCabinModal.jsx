@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
 const Overlay = styled.div`
   position: fixed;
@@ -80,9 +79,5 @@ const ConfirmDeleteCabinModal = ({ confirmDelete, onClose }) => {
   );
 };
 
-ConfirmDeleteCabinModal.propTypes = {
-  confirmDelete: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
-};
-
 export default ConfirmDeleteCabinModal;
+
